@@ -80,24 +80,25 @@ const AppIcon: React.FC<AppIconProps> = ({
 
 					...(isFocused
 						? {
-								backgroundColor: "rgba(0,0,0,0.4)",
-								border: "solid 1.5px rgba(200,200,200,0.4)",
-								borderRadius: 4,
+								backgroundColor: `rgba(200,200,200,${
+									theme === "DARK" ? 0.2 : 0.4
+								})`,
+								// border: "solid 1.5px rgba(200,200,200,0.4)",
+								borderRadius: 5,
 						  }
 						: {
-								border: "solid 1.5px rgba(200,200,200,0)",
+								// border: "solid 1.5px rgba(200,200,200,0)",
 						  }),
 				}}
 			>
 				<img
 					src={data.icon}
 					alt="app-icon"
-					width={65}
-					height={65}
+					width={55}
+					height={55}
 					style={{
 						borderRadius: "15px",
-						boxShadow:
-							"0px 1px 1px 1px rgba(0,0,0,0.2), inset 5px 5px rgba(0,0,0,0.5)",
+						boxShadow: "0px 0.5px 0.5px 0.5px rgba(0,0,0,0.2)",
 					}}
 				/>
 			</div>
@@ -107,7 +108,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 					marginTop: 3,
 					textAlign: "center",
 					fontSize: 13,
-					fontWeight: 400,
+					fontWeight: 500,
 					textShadow: "0px 0px 2px rgba(0,0,0,0.1)",
 
 					paddingBottom: 1,

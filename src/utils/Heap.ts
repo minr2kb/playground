@@ -27,7 +27,7 @@ export default class Heap<T> {
 	}
 
 	size() {
-		return this.heapArray.length - 1;
+		return this.heapArray.length;
 	}
 
 	peek() {
@@ -62,8 +62,9 @@ export default class Heap<T> {
 
 	pop() {
 		const min = this.heapArray[0];
-		if (this.heapArray.length <= 1) this.heapArray = [];
-		else {
+		if (this.heapArray.length <= 1) {
+			this.heapArray = [];
+		} else {
 			const popped = this.heapArray.pop();
 			if (popped) this.heapArray[0] = popped;
 		}
@@ -98,7 +99,6 @@ export default class Heap<T> {
 				) < 0
 					? rightIdx
 					: leftIdx;
-			console.log(minIdx);
 			this.swap(minIdx, curIdx);
 			curIdx = minIdx;
 			leftIdx = this.leftChild(curIdx);

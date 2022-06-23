@@ -79,9 +79,9 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 				overflow: "hidden",
 				backgroundColor: "#000",
 				borderRadius: isFullSize ? 0 : "12px",
-				border: isFullSize
-					? "none"
-					: "solid 1.5px rgba(255,255,255,0.3)",
+				// border: isFullSize
+				// 	? "none"
+				// 	: "solid 1.5px rgba(255,255,255,0.3)",
 				boxShadow: "5px 10px 30px 7px rgba(0,0,0,0.5)",
 				marginLeft: isStaged || isFullSize ? 0 : offset.x,
 				marginTop: isStaged || isFullSize ? 0 : offset.y,

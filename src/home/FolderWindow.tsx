@@ -94,10 +94,16 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 				overflow: "hidden",
 				backgroundColor: theme === "DARK" ? "#221D27" : "#FFFFFF",
 				borderRadius: isFullSize ? 0 : "12px",
-				border: isFullSize ? "none" : "solid 1px rgba(255,255,255,0.3)",
+				border: isFullSize
+					? "none"
+					: `solid 1px ${
+							theme === "DARK"
+								? "rgba(255,255,255,0.3)"
+								: "rgba(0,0,0,0.3)"
+					  }`,
 				boxShadow: `5px 10px 30px 10px rgba(0,0,0,${
 					isFocused ? 0.5 : 0.3
-				}), 0px 0px 0px 1px rgba(0,0,0,1)`,
+				})`,
 				marginLeft: isStaged || isFullSize ? 0 : offset.x,
 				marginTop: isStaged || isFullSize ? 0 : offset.y,
 				zIndex: 100 + windowStack.indexOf(id),
@@ -109,16 +115,22 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					alignItems: "center",
 					justifyContent: "space-between",
 					height: 50,
-					backgroundColor: isFocused
-						? theme === "DARK"
-							? "#37333C"
-							: "#F5F1F8"
-						: theme === "DARK"
-						? "#2C2733"
-						: "#E7E5EA",
+					// backgroundColor: isFocused
+					// 	? theme === "DARK"
+					// 		? "#37333C"
+					// 		: "#F5F1F8"
+					// 	: theme === "DARK"
+					// 	? "#2C2733"
+					// 	: "#E7E5EA",
+					backgroundColor: theme === "DARK" ? "#37333C" : "#F5F1F8",
 					borderBottom: "solid 0.5px rgba(0,0,0,1)",
 					paddingLeft: 20,
-					transition: "all ease-in-out 0.5s",
+					transition: "background-color ease-in-out 0.5s",
+					opacity: isFocused ? 1 : 0.6,
+					filter:
+						!isFocused && theme === "LIGHT"
+							? "brightness(0.9)"
+							: "brightness(1)",
 				}}
 				{...draggerableProps}
 				onClick={onFocus}

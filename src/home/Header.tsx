@@ -14,7 +14,13 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 		app: ["보기", "윈도우", "도움말"],
 	};
 	const week = useMemo(() => ["일", "월", "화", "수", "목", "금", "토"], []);
-	const [time, setTime] = useState([0, 0, "월", 0, 0]);
+	const [time, setTime] = useState<[number, number, string, number, number]>([
+		0,
+		0,
+		"월",
+		0,
+		0,
+	]);
 	const windowFocus = useRecoilValue(windowFocusRecoil);
 	const [theme, setTheme] = useRecoilState(themeRecoil);
 
@@ -38,11 +44,17 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				justifyContent: "space-between",
 				width: "100%",
 				height: 30,
-				backgroundColor: "rgba(63,13,168,0.8)",
-				backdropFilter: "blur(10px)",
+				backgroundColor:
+					theme === "DARK"
+						? "rgba(62,13,165,0.7)"
+						: "rgba(232,195,255,0.7)",
+				backdropFilter: "blur(50px)",
 				fontSize: 13,
 				fontWeight: 500,
-				textShadow: "0px 0px 5px rgba(0,0,0,0.4)",
+				textShadow:
+					theme === "DARK" ? "0px 0px 5px rgba(0,0,0,0.4)" : "none",
+				color: theme === "DARK" ? "white" : "black",
+				transition: "background-color ease-in-out 0.5s",
 			}}
 		>
 			<div
@@ -57,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="apple-logo"
 					width={13}
 					style={{
-						filter: "invert(100%)",
+						filter: theme === "DARK" ? "invert(100%)" : "none",
 
 						marginBottom: 1,
 					}}
@@ -102,10 +114,10 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				<div
 					style={{
 						marginLeft: 20,
-						backgroundColor: "white",
+						backgroundColor: theme === "DARK" ? "white" : "black",
 						fontWeight: 400,
 						textShadow: "none",
-						color: "rgba(63,13,168,1)",
+						color: theme === "DARK" ? "black" : "white",
 						borderRadius: 3,
 					}}
 				>
@@ -116,7 +128,8 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="bluetooth"
 					width={8}
 					style={{
-						filter: "invert(100%)",
+						filter: theme === "DARK" ? "invert(100%)" : "none",
+
 						marginLeft: 20,
 						marginBottom: 1,
 					}}
@@ -126,7 +139,8 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="battery"
 					width={28}
 					style={{
-						filter: "invert(100%)",
+						filter: theme === "DARK" ? "invert(100%)" : "none",
+
 						marginLeft: 20,
 						marginBottom: 1,
 					}}
@@ -136,7 +150,8 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="control-center"
 					width={16}
 					style={{
-						filter: "invert(100%)",
+						filter: theme === "DARK" ? "invert(100%)" : "none",
+
 						marginLeft: 20,
 						marginBottom: 1,
 					}}
@@ -150,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					}}
 				>
 					{time[0]}월 {time[1]}일 ({time[2]}) &nbsp; {time[3]}:
-					{time[4]}
+					{time[4].toString().padStart(2, "0")}
 				</div>
 			</div>
 		</div>

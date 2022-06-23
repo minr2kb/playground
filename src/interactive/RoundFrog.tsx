@@ -11,6 +11,7 @@ const comparator = (a: HeapData, b: HeapData) => a.priority - b.priority;
 const heap = new Heap<HeapData>(comparator);
 
 const RoundFrog: React.FC<RoundFrogProps> = () => {
+	const containerRef = useRef<HTMLDivElement>(null);
 	const [devMode, setDevMode] = useState(false);
 	const [position, setPosition] = useState<Coordinate>({
 		x: 400,
@@ -22,7 +23,9 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 		null
 	);
 	const [angle, setAngle] = useState<number>(90);
-	const containerRef = useRef<HTMLDivElement>(null);
+	const [curveDirection, setCurveDirection] = useState<
+		"X" | "Y" | "straight"
+	>("straight");
 	const [offsetLeft, setOffsetLeft] = useState(0);
 	const [offsetTop, setOffsetTop] = useState(0);
 
@@ -67,8 +70,10 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 			if (min) setTargetPos(min.data);
 			setTimeout(() => {
 				if (min) {
+					// setCurveDirection(prev => (prev === "X" ? "Y" : "X"));
 					move(from, min.data);
 				} else {
+					setCurveDirection("straight");
 					setTargetPos(null);
 					setFrogStatus(null);
 				}
@@ -80,11 +85,10 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 		const grandPar = containerRef.current?.parentElement?.parentElement;
 		setOffsetLeft(grandPar?.offsetLeft || 0);
 		setOffsetTop(grandPar?.offsetTop || 0);
-		return () => heap.clear();
 	}, [containerRef.current?.clientWidth, position]);
 
 	useEffect(() => {
-		const arr = heap.heapArray;
+		const arr = [...heap.heapArray];
 		heap.clear();
 		heap.addAll(
 			arr.map(elem => {
@@ -95,6 +99,10 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 			})
 		);
 	}, [position]);
+
+	useEffect(() => {
+		return () => heap.clear();
+	}, []);
 
 	useInterval(
 		//TODO: random event
@@ -184,9 +192,15 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 					width: "50px",
 					height: "65px",
 					transform: `rotate(${90 - angle}deg)`,
-					transition: `top ease-in ${time / 1000}s, left ease-in ${
-						time / 1000
-					}s, transform ease-in 0.5s`,
+					transition: `top ease-${
+						curveDirection === "X" || curveDirection !== "straight"
+							? "out"
+							: "in"
+					} ${time / 1000}s, left ease-${
+						curveDirection === "X" || curveDirection === "straight"
+							? "in"
+							: "out"
+					} ${time / 1000}s, transform ease-in 0.5s`,
 					cursor: frogStatus === null ? "pointer" : "default",
 				}}
 				draggable={false}
