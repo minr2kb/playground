@@ -201,6 +201,15 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 							? "in"
 							: "out"
 					} ${time / 1000}s, transform ease-in 0.5s`,
+					WebkitTransition: `top ease-${
+						curveDirection === "X" || curveDirection !== "straight"
+							? "out"
+							: "in"
+					} ${time / 1000}s, left ease-${
+						curveDirection === "X" || curveDirection === "straight"
+							? "in"
+							: "out"
+					} ${time / 1000}s, transform ease-in 0.5s`,
 					cursor: frogStatus === null ? "pointer" : "default",
 				}}
 				draggable={false}

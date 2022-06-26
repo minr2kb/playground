@@ -27,6 +27,7 @@ const LightBulb: React.FC<LightBulbProps> = ({ width, height }) => {
 						: "/images/interactive/lightbulb_off.jpg"
 				}")`,
 				transition: "all ease-in-out 0.2s",
+				WebkitTransition: "all ease-in-out 0.2s",
 				cursor: "grab",
 			}}
 		/>

@@ -55,6 +55,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					theme === "DARK" ? "0px 0px 5px rgba(0,0,0,0.4)" : "none",
 				color: theme === "DARK" ? "white" : "black",
 				transition: "background-color ease-in-out 0.5s",
+				WebkitTransition: "background-color ease-in-out 0.5s",
 			}}
 		>
 			<div

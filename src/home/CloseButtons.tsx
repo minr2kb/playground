@@ -47,9 +47,11 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 							? "#666"
 							: "#ACACAC",
 				}}
-				onMouseOver={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-				onClick={onClose}
+				onMouseOver={isFocused ? () => setIsHovering(true) : undefined}
+				onMouseLeave={
+					isFocused ? () => setIsHovering(false) : undefined
+				}
+				onClick={isFocused ? onClose : undefined}
 			>
 				{isHovering && <CgClose size={12} color="rgba(0,0,0,0.6)" />}
 			</div>
@@ -68,9 +70,11 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 							? "#666"
 							: "#ACACAC",
 				}}
-				onMouseOver={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-				onClick={onStage}
+				onMouseOver={isFocused ? () => setIsHovering(true) : undefined}
+				onMouseLeave={
+					isFocused ? () => setIsHovering(false) : undefined
+				}
+				onClick={isFocused ? onStage : undefined}
 			>
 				{isHovering && <BsDash size={20} color="rgba(0,0,0,0.6)" />}
 			</div>
@@ -89,11 +93,14 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 							? "#666"
 							: "#ACACAC",
 				}}
-				onMouseOver={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
-				onClick={() => setIsFullSize(prev => !prev)}
+				onMouseOver={isFocused ? () => setIsHovering(true) : undefined}
+				onMouseLeave={
+					isFocused ? () => setIsHovering(false) : undefined
+				}
+				onClick={
+					isFocused ? () => setIsFullSize(prev => !prev) : undefined
+				}
 			>
-				{" "}
 				{isHovering && (
 					<div
 						style={{

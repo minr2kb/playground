@@ -51,6 +51,9 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 	const onClose: React.MouseEventHandler<HTMLDivElement> = e => {
 		e.stopPropagation();
 		setIsFullSize(false);
+		if (windowStack.length > 1) {
+			setWindowFocus(windowStack[windowStack.length - 2]);
+		}
 		setWindowStack(prev => [...prev.filter(windowId => windowId !== id)]);
 		console.log(id, [...windowStack.filter(windowId => windowId !== id)]);
 	};
@@ -72,6 +75,9 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 		<div
 			style={{
 				transition: `top ease-in-out 0.2s, left ease-in-out 0.2s, background-color ease-in-out 0.5s, width ease-in-out 0.2s, height ease-in-out 0.2s${
+					isDragging ? "" : ", margin ease-in-out 0.2s"
+				}`,
+				WebkitTransition: `top ease-in-out 0.2s, left ease-in-out 0.2s, background-color ease-in-out 0.5s, width ease-in-out 0.2s, height ease-in-out 0.2s${
 					isDragging ? "" : ", margin ease-in-out 0.2s"
 				}`,
 				position: "absolute",
@@ -126,6 +132,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					borderBottom: "solid 0.5px rgba(0,0,0,1)",
 					paddingLeft: 20,
 					transition: "background-color ease-in-out 0.5s",
+					WebkitTransition: "background-color ease-in-out 0.5s",
 					opacity: isFocused ? 1 : 0.6,
 					filter:
 						!isFocused && theme === "LIGHT"

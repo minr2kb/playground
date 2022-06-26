@@ -193,6 +193,7 @@ const Legorize: React.FC = () => {
 				<div
 					ref={captureDivRef}
 					style={{
+						position: "relative",
 						width: imgSize.width,
 						height: imgSize.height,
 						overflow: "hidden",
@@ -213,7 +214,11 @@ const Legorize: React.FC = () => {
 						<>
 							<canvas
 								ref={canvasRef}
-								style={{ position: "absolute" }}
+								style={{
+									position: "absolute",
+									top: 0,
+									left: 0,
+								}}
 							/>
 							{mode === "lego" && (
 								<div

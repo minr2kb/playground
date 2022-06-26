@@ -36,6 +36,9 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 	const onClose: React.MouseEventHandler<HTMLDivElement> = e => {
 		e.stopPropagation();
 		setIsFullSize(false);
+		if (windowStack.length > 1) {
+			setWindowFocus(windowStack[windowStack.length - 2]);
+		}
 		setWindowStack(prev => [...prev.filter(windowId => windowId !== id)]);
 		console.log(id, [...windowStack.filter(windowId => windowId !== id)]);
 	};
@@ -57,6 +60,9 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 		<div
 			style={{
 				transition: `top ease-in-out 0.2s, left ease-in-out 0.2s, width ease-in-out 0.2s, height ease-in-out 0.2s${
+					isDragging ? "" : ", margin ease-in-out 0.2s"
+				}`,
+				WebkitTransition: `top ease-in-out 0.2s, left ease-in-out 0.2s, width ease-in-out 0.2s, height ease-in-out 0.2s${
 					isDragging ? "" : ", margin ease-in-out 0.2s"
 				}`,
 				position: "absolute",

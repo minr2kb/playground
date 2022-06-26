@@ -35,6 +35,7 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 					borderRadius: "50%",
 					backgroundColor: "#EEE",
 					transition: "all ease-in-out 0.5s",
+					WebkitTransition: "all ease-in-out 0.5s",
 				}}
 			></div>
 			<div>
