@@ -1,4 +1,5 @@
 import Spline from "@splinetool/react-spline";
+import { AppInfo } from "../../types/interfaces";
 
 const TMRlogo: React.FC = () => {
 	return (
@@ -8,6 +9,11 @@ const TMRlogo: React.FC = () => {
 			</div>
 		</>
 	);
+};
+
+export const config: AppInfo = {
+	name: "TMR Logo",
+	icon: "images/3d/3d-tmr-logo.png",
 };
 
 export default TMRlogo;

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Coordinate, HeapData } from "../interfaces";
-import Heap from "../utils/Heap";
-import useInterval from "../utils/useInterval";
+import { AppInfo, Coordinate, HeapData } from "../../types/interfaces";
+import Heap from "../../utils/structure/Heap";
+import useInterval from "../../utils/hooks/useInterval";
 
-interface RoundFrogProps {}
+export interface RoundFrogProps {}
 
 const SPEED = 10;
 const DELAY = 0.5;
@@ -262,6 +262,11 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 			</div>
 		</div>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Round Frog",
+	icon: "images/interactive/interactive-round-frog.jpg",
 };
 
 export default RoundFrog;

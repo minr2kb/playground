@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import html2canvas from "html2canvas";
-import { Size } from "../interfaces";
+import { AppInfo, Size } from "../../types/interfaces";
 
 // https://redstapler.co/how-to-create-pixelated-image-with-javascript/
 // https://konvajs.org/docs/filters/Pixelate.html
@@ -279,6 +279,11 @@ const Legorize: React.FC = () => {
 			</div>
 		</div>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Legorize",
+	icon: "images/graphics/graphics-legorize_light.png",
 };
 
 export default Legorize;

@@ -1,4 +1,5 @@
 import Spline from "@splinetool/react-spline";
+import { AppInfo } from "../../types/interfaces";
 
 const CoffeeCup: React.FC = () => {
 	return (
@@ -8,6 +9,11 @@ const CoffeeCup: React.FC = () => {
 			</div>
 		</>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Coffee Cup",
+	icon: "images/3d/3d-coffee-cup.png",
 };
 
 export default CoffeeCup;

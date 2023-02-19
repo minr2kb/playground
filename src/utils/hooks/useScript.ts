@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 
-function useScript(src: string) {
+export type ScriptStatus = "idle" | "loading" | "ready" | "error";
+
+const useScript = (src: string): ScriptStatus => {
 	// Keep track of script status ("idle", "loading", "ready", "error")
-	const [status, setStatus] = useState<string>(src ? "loading" : "idle");
+	const [status, setStatus] = useState<ScriptStatus>(
+		src ? "loading" : "idle"
+	);
 	useEffect(() => {
 		if (!src) {
 			setStatus("idle");
@@ -28,7 +32,9 @@ function useScript(src: string) {
 			script.addEventListener("load", setAttributeFromEvent);
 			script.addEventListener("error", setAttributeFromEvent);
 		} else {
-			setStatus(script.getAttribute("data-status") || "idle");
+			setStatus(
+				(script.getAttribute("data-status") as ScriptStatus) || "idle"
+			);
 		}
 
 		const setStateFromEvent = (event: Event) => {
@@ -46,6 +52,6 @@ function useScript(src: string) {
 		};
 	}, [src]);
 	return status;
-}
+};
 
 export default useScript;

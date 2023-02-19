@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import useInterval from "../utils/useInterval";
-import { themeRecoil, windowFocusRecoil } from "../recoil";
-import { dirMap } from "./const/appData";
+import useInterval from "../utils/hooks/useInterval";
+import { dirMapRecoil, themeRecoil, windowFocusRecoil } from "../recoil";
+
+import { DirType, Theme } from "../types/interfaces";
 
 interface HeaderProps {
 	onLogoClick?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
+	const dirMap = useRecoilValue(dirMapRecoil);
 	const menus = {
 		finder: ["파일", "편집", "보기", "이동", "윈도우", "도움말"],
 		app: ["보기", "윈도우", "도움말"],
@@ -45,15 +47,17 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				width: "100%",
 				height: 30,
 				backgroundColor:
-					theme === "DARK"
+					theme === Theme.DARK
 						? "rgba(62,13,165,0.7)"
 						: "rgba(232,195,255,0.7)",
 				backdropFilter: "blur(50px)",
 				fontSize: 13,
 				fontWeight: 500,
 				textShadow:
-					theme === "DARK" ? "0px 0px 5px rgba(0,0,0,0.4)" : "none",
-				color: theme === "DARK" ? "white" : "black",
+					theme === Theme.DARK
+						? "0px 0px 5px rgba(0,0,0,0.4)"
+						: "none",
+				color: theme === Theme.DARK ? "white" : "black",
 				transition: "background-color ease-in-out 0.5s",
 				WebkitTransition: "background-color ease-in-out 0.5s",
 			}}
@@ -70,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="apple-logo"
 					width={13}
 					style={{
-						filter: theme === "DARK" ? "invert(100%)" : "none",
+						filter: theme === Theme.DARK ? "invert(100%)" : "none",
 
 						marginBottom: 1,
 					}}
@@ -84,13 +88,13 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				>
 					{windowFocus === null
 						? "KBMIN's Playground"
-						: dirMap[windowFocus].type === "folder"
+						: dirMap[windowFocus].type === DirType.FOLDER
 						? "Finder"
 						: dirMap[windowFocus].name}
 				</div>
 				{menus[
 					windowFocus === null ||
-					dirMap[windowFocus].type === "folder"
+					dirMap[windowFocus].type === DirType.FOLDER
 						? "finder"
 						: "app"
 				].map((menu: string, idx: number) => (
@@ -115,10 +119,11 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				<div
 					style={{
 						marginLeft: 20,
-						backgroundColor: theme === "DARK" ? "white" : "black",
+						backgroundColor:
+							theme === Theme.DARK ? "white" : "black",
 						fontWeight: 400,
 						textShadow: "none",
-						color: theme === "DARK" ? "black" : "white",
+						color: theme === Theme.DARK ? "black" : "white",
 						borderRadius: 3,
 					}}
 				>
@@ -129,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="bluetooth"
 					width={8}
 					style={{
-						filter: theme === "DARK" ? "invert(100%)" : "none",
+						filter: theme === Theme.DARK ? "invert(100%)" : "none",
 
 						marginLeft: 20,
 						marginBottom: 1,
@@ -140,7 +145,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="battery"
 					width={28}
 					style={{
-						filter: theme === "DARK" ? "invert(100%)" : "none",
+						filter: theme === Theme.DARK ? "invert(100%)" : "none",
 
 						marginLeft: 20,
 						marginBottom: 1,
@@ -151,13 +156,15 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					alt="control-center"
 					width={16}
 					style={{
-						filter: theme === "DARK" ? "invert(100%)" : "none",
+						filter: theme === Theme.DARK ? "invert(100%)" : "none",
 
 						marginLeft: 20,
 						marginBottom: 1,
 					}}
 					onClick={() =>
-						setTheme(prev => (prev === "DARK" ? "LIGHT" : "DARK"))
+						setTheme(prev =>
+							prev === Theme.DARK ? Theme.LIGHT : Theme.DARK
+						)
 					}
 				/>
 				<div

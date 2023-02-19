@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Size } from "../interfaces";
+import { Size } from "../../types/interfaces";
 
 const useLayoutSize = (): [Size, React.RefObject<HTMLDivElement>] => {
 	const layoutRef = useRef<HTMLDivElement>(null);

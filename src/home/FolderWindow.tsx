@@ -1,21 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { themeRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
+import {
+	dirMapRecoil,
+	themeRecoil,
+	windowFocusRecoil,
+	windowStackRecoil,
+} from "../recoil";
 import { BsChevronLeft, BsChevronRight, BsSearch } from "react-icons/bs";
 import { CgMoreO, CgChevronDown } from "react-icons/cg";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi";
-import useDraggable from "../utils/useDraggable";
+import useDraggable from "../utils/hooks/useDraggable";
 import AppIcon from "./AppIcon";
 import FolderIcon from "./FolderIcon";
 import CloseButtons from "./CloseButtons";
-import { Folder, UUID } from "./const/interfaces";
-import { dirMap } from "./const/appData";
+import { DirType, Folder, Theme, UUID } from "../types/interfaces";
 
 interface FolderWindowProps {
 	id: UUID;
 }
 
 const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
+	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as Folder;
 	const [draggerableProps, offset, isDragging] = useDraggable();
 
@@ -34,7 +39,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 
 	const isFocused = windowFocus === id;
 
-	const iconColor = theme === "DARK" ? "#FFFFFF" : "#4A4A4A";
+	const iconColor = theme === Theme.DARK ? "#FFFFFF" : "#4A4A4A";
 
 	const onFocus: React.MouseEventHandler<HTMLDivElement> = e => {
 		e.stopPropagation();
@@ -55,7 +60,6 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 			setWindowFocus(windowStack[windowStack.length - 2]);
 		}
 		setWindowStack(prev => [...prev.filter(windowId => windowId !== id)]);
-		console.log(id, [...windowStack.filter(windowId => windowId !== id)]);
 	};
 
 	const onStage: React.MouseEventHandler<HTMLDivElement> = e => {
@@ -98,12 +102,12 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					? "100vh"
 					: windowSize.height,
 				overflow: "hidden",
-				backgroundColor: theme === "DARK" ? "#221D27" : "#FFFFFF",
+				backgroundColor: theme === Theme.DARK ? "#221D27" : "#FFFFFF",
 				borderRadius: isFullSize ? 0 : "12px",
 				border: isFullSize
 					? "none"
 					: `solid 1px ${
-							theme === "DARK"
+							theme === Theme.DARK
 								? "rgba(255,255,255,0.3)"
 								: "rgba(0,0,0,0.3)"
 					  }`,
@@ -128,14 +132,14 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					// 	: theme === "DARK"
 					// 	? "#2C2733"
 					// 	: "#E7E5EA",
-					backgroundColor: theme === "DARK" ? "#37333C" : "#F5F1F8",
+					backgroundColor: Theme.DARK ? "#37333C" : "#F5F1F8",
 					borderBottom: "solid 0.5px rgba(0,0,0,1)",
 					paddingLeft: 20,
 					transition: "background-color ease-in-out 0.5s",
 					WebkitTransition: "background-color ease-in-out 0.5s",
 					opacity: isFocused ? 1 : 0.6,
 					filter:
-						!isFocused && theme === "LIGHT"
+						!isFocused && theme === Theme.LIGHT
 							? "brightness(0.9)"
 							: "brightness(1)",
 				}}
@@ -240,27 +244,27 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 				onClick={onFocus}
 			>
 				{data.childrenNodes.map((childrenNodeId: UUID, idx: number) =>
-					dirMap[childrenNodeId].type === "folder" ? (
+					dirMap[childrenNodeId].type === DirType.FOLDER ? (
 						<FolderIcon
 							key={childrenNodeId}
 							id={childrenNodeId}
 							index={idx}
+							parentNode={id}
 							iconFocus={iconFocus}
 							setIconFocus={setIconFocus}
 							iconStack={iconStack}
 							setIconStack={setIconStack}
-							parentNode={id}
 						/>
 					) : (
 						<AppIcon
 							key={childrenNodeId}
 							id={childrenNodeId}
 							index={idx}
+							parentNode={id}
 							iconFocus={iconFocus}
 							setIconFocus={setIconFocus}
 							iconStack={iconStack}
 							setIconStack={setIconStack}
-							parentNode={id}
 						/>
 					)
 				)}

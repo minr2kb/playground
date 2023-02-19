@@ -1,5 +1,6 @@
 import { useState } from "react";
-import useSequence from "../utils/useSequence";
+import useSequence from "../../utils/hooks/useSequence";
+import { AppInfo } from "../../types/interfaces";
 
 interface HoverLogoProps {
 	onClick?: () => void;
@@ -70,6 +71,11 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 			</div>
 		</div>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Hover Logo",
+	icon: "images/interactive/interactive-hover-logo.png",
 };
 
 export default HoverLogo;

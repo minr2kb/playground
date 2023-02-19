@@ -1,5 +1,6 @@
 import { useState } from "react";
-import useWindowDimensions from "../utils/useWindowDimensions";
+import useWindowDimensions from "../../utils/hooks/useWindowDimensions";
+import { AppInfo } from "../../types/interfaces";
 
 interface LightBulbProps {
 	width: number;
@@ -7,7 +8,7 @@ interface LightBulbProps {
 }
 const LightBulb: React.FC<LightBulbProps> = ({ width, height }) => {
 	const [isHovering, setIsHovering] = useState(false);
-	const [switchOn, setSwitchOn] = useState(false);
+	const [_switchOn, setSwitchOn] = useState(false);
 
 	return (
 		<div
@@ -60,6 +61,11 @@ const LightBulbs: React.FC = () => {
 			))}
 		</div>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Light Bulbs",
+	icon: "images/interactive/interactive-light-bulbs.png",
 };
 
 export default LightBulbs;

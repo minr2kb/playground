@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Coordinate } from "../interfaces";
+import { Coordinate } from "../../types/interfaces";
 
 const useDraggable = (): [
 	{

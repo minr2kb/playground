@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { windowFocusRecoil, windowStackRecoil } from "../recoil";
-import useDraggable from "../utils/useDraggable";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { dirMapRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
+import useDraggable from "../utils/hooks/useDraggable";
 import CloseButtons from "./CloseButtons";
-import { App, UUID } from "./const/interfaces";
-import { dirMap } from "./const/appData";
+import { App, UUID } from "../types/interfaces";
+
 interface AppWindowProps {
 	id: UUID;
 }
 
 const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
+	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as App;
+	console.log(data);
 	const Content = data.component;
 	const [draggerableProps, offset, isDragging] = useDraggable();
 
@@ -40,7 +42,6 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 			setWindowFocus(windowStack[windowStack.length - 2]);
 		}
 		setWindowStack(prev => [...prev.filter(windowId => windowId !== id)]);
-		console.log(id, [...windowStack.filter(windowId => windowId !== id)]);
 	};
 
 	const onStage: React.MouseEventHandler<HTMLDivElement> = e => {
@@ -137,7 +138,7 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 				}}
 				onClick={onFocus}
 			>
-				<Content />
+				{<Content />}
 			</div>
 		</div>
 	);

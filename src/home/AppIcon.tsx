@@ -1,9 +1,13 @@
 import React from "react";
-import useDraggable from "../utils/useDraggable";
+import useDraggable from "../utils/hooks/useDraggable";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { themeRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
-import { App, UUID } from "./const/interfaces";
-import { dirMap } from "./const/appData";
+import {
+	dirMapRecoil,
+	themeRecoil,
+	windowFocusRecoil,
+	windowStackRecoil,
+} from "../recoil";
+import { App, Theme, UUID } from "../types/interfaces";
 
 interface AppIconProps {
 	id: UUID;
@@ -24,16 +28,19 @@ const AppIcon: React.FC<AppIconProps> = ({
 	setIconStack,
 	parentNode,
 }) => {
+	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as App;
 	const [draggerableProps, offset] = useDraggable();
-	const [windowStack, setWindowStack] = useRecoilState(windowStackRecoil);
 	const [windowFocus, setWindowFocus] = useRecoilState(windowFocusRecoil);
+	const [windowStack, setWindowStack] = useRecoilState(windowStackRecoil);
+
 	const theme = useRecoilValue(themeRecoil);
 
 	const isFocused = iconFocus === id;
 	const isHalfFocused = isFocused && windowFocus !== parentNode;
 
 	const onFocus = () => {
+		console.log("dlick");
 		setIconStack(prev => [...prev.filter(iconId => iconId !== id), id]);
 		setIconFocus(id);
 		setWindowFocus(parentNode);
@@ -81,7 +88,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 					...(isFocused
 						? {
 								backgroundColor: `rgba(200,200,200,${
-									theme === "DARK" ? 0.2 : 0.4
+									theme === Theme.DARK ? 0.2 : 0.4
 								})`,
 								// border: "solid 1.5px rgba(200,200,200,0.4)",
 								borderRadius: 5,
@@ -99,6 +106,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 					style={{
 						borderRadius: "15px",
 						boxShadow: "0px 0.5px 0.5px 0.5px rgba(0,0,0,0.2)",
+						objectFit: "cover",
 					}}
 				/>
 			</div>
@@ -117,7 +125,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 					borderRadius: 3,
 					color: isHalfFocused
 						? "#666"
-						: theme === "DARK" || isFocused
+						: Theme.DARK || isFocused
 						? "white"
 						: "#333333",
 					backgroundColor: isHalfFocused

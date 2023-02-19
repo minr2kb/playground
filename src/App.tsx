@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import NotFound from "./NotFound";
-import HoverLogo from "./interactive/HoverLogo";
-import RainbowRotate from "./graphics/RainbowRotate";
-import Legorize from "./graphics/Legorize";
-import CoffeeCup from "./3d/CoffeeCup";
-import TMRlogo from "./3d/TMRlogo";
-import LightBulbs from "./interactive/LightBulbs";
+import HoverLogo from "./pages/interactive/HoverLogo";
+import RainbowRotate from "./pages/graphics/RainbowRotate";
+import Legorize from "./pages/graphics/Legorize";
+import CoffeeCup from "./pages/3d/CoffeeCup";
+import TMRlogo from "./pages/3d/TMRlogo";
+import LightBulbs from "./pages/interactive/LightBulbs";
 import Home from "./home/Home";
 
 function App() {

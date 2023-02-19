@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { themeRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
-import useFullScreen from "../utils/useFullScreen";
+import {
+	dirMapRecoil,
+	rootDirRecoil,
+	themeRecoil,
+	windowFocusRecoil,
+	windowStackRecoil,
+} from "../recoil";
+import useFullScreen from "../utils/hooks/useFullScreen";
 import AppIcon from "./AppIcon";
 import FolderIcon from "./FolderIcon";
 import Header from "./Header";
 import FolderWindow from "./FolderWindow";
 import AppWindow from "./AppWindow";
-import { UUID } from "./const/interfaces";
-import { dirMap, homeDir } from "./const/appData";
+import { DirType, Theme, UUID } from "../types/interfaces";
 import { messaging } from "../firebase";
 import { getToken, onMessage } from "firebase/messaging";
+import { getComponentTree } from "../utils/dirUtils";
 
 const Home: React.FC = () => {
-	const { elem, triggerFull } = useFullScreen();
-	const [iconFocus, setIconFocus] = useState<UUID | null>(null);
-	const [iconStack, setIconStack] = useState<UUID[]>(homeDir);
-
 	const theme = useRecoilValue(themeRecoil);
+	const [iconFocus, setIconFocus] = useState<UUID | null>(null);
+	const [iconStack, setIconStack] = useState<UUID[]>([]);
+
 	const windowStack = useRecoilValue(windowStackRecoil);
 	const [windowFocus, setWindowFocus] = useRecoilState(windowFocusRecoil);
+	const [rootDir, setRootDir] = useRecoilState(rootDirRecoil);
+	const [dirMap, setDirMap] = useRecoilState(dirMapRecoil);
+	const { elem, triggerFull } = useFullScreen();
 
 	const focusOut = () => {
 		setWindowFocus(null);
@@ -30,8 +38,22 @@ const Home: React.FC = () => {
 
 	onMessage(messaging, payload => {
 		console.log("Message received. ", payload);
+		if (payload.notification) {
+			const { title, ...options } = payload.notification;
+			new Notification(title || "알림", options);
+		}
 		// ...
 	});
+
+	useEffect(() => {
+		const componentContext = require.context("../pages/", true, /\.tsx$/);
+		getComponentTree(componentContext).then(res => {
+			const { rootDir: rd, dirMap: dm } = res;
+			setIconStack(rd);
+			setRootDir(rd);
+			setDirMap(dm);
+		});
+	}, []);
 
 	useEffect(() => {
 		getToken(messaging, {
@@ -63,7 +85,7 @@ const Home: React.FC = () => {
 				width: "100vw",
 				height: "100vh",
 				backgroundImage: `url('images/home/mac_desktop_bg${
-					theme === "DARK" ? "_dark" : ""
+					theme === Theme.DARK ? "_dark" : ""
 				}.jpg')`,
 				backgroundSize: "100%",
 				backgroundPosition: "center center",
@@ -82,35 +104,35 @@ const Home: React.FC = () => {
 					padding: 10,
 				}}
 			>
-				{homeDir.map((childrenNodeId: UUID, idx: number) =>
-					dirMap[childrenNodeId].type === "folder" ? (
+				{rootDir.map((childrenNodeId: UUID, idx: number) =>
+					dirMap[childrenNodeId].type === DirType.FOLDER ? (
 						<FolderIcon
 							key={childrenNodeId}
 							id={childrenNodeId}
 							index={idx}
+							parentNode={null}
 							iconFocus={iconFocus}
 							setIconFocus={setIconFocus}
 							iconStack={iconStack}
 							setIconStack={setIconStack}
-							parentNode={null}
 						/>
 					) : (
 						<AppIcon
 							key={childrenNodeId}
 							id={childrenNodeId}
 							index={idx}
+							parentNode={null}
 							iconFocus={iconFocus}
 							setIconFocus={setIconFocus}
 							iconStack={iconStack}
 							setIconStack={setIconStack}
-							parentNode={null}
 						/>
 					)
 				)}
 				{Object.keys(dirMap).map(
 					(windowId: UUID) =>
 						windowStack.includes(windowId) &&
-						(dirMap[windowId].type === "folder" ? (
+						(dirMap[windowId].type === DirType.FOLDER ? (
 							<FolderWindow key={windowId} id={windowId} />
 						) : (
 							<AppWindow key={windowId} id={windowId} />

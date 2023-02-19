@@ -1,4 +1,5 @@
-import useSequence from "../utils/useSequence";
+import { AppInfo } from "../../types/interfaces";
+import useSequence from "../../utils/hooks/useSequence";
 
 const RainbowRotate: React.FC = () => {
 	const MAX = 50;
@@ -47,6 +48,11 @@ const RainbowRotate: React.FC = () => {
 			</div>
 		</div>
 	);
+};
+
+export const config: AppInfo = {
+	name: "Rainbow Rotate",
+	icon: "images/graphics/graphics-rainbow-rotate.png",
 };
 
 export default RainbowRotate;

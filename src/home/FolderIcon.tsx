@@ -1,9 +1,8 @@
 import React from "react";
-import useDraggable from "../utils/useDraggable";
-import { useRecoilState } from "recoil";
-import { windowFocusRecoil, windowStackRecoil } from "../recoil";
-import { Folder, UUID } from "./const/interfaces";
-import { dirMap } from "./const/appData";
+import useDraggable from "../utils/hooks/useDraggable";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { dirMapRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
+import { Folder, UUID } from "../types/interfaces";
 
 interface FolderProps {
 	id: UUID;
@@ -24,10 +23,11 @@ const FolderIcon: React.FC<FolderProps> = ({
 	setIconStack,
 	parentNode,
 }) => {
+	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as Folder;
 	const [draggerableProps, offset] = useDraggable();
-	const [windowStack, setWindowStack] = useRecoilState(windowStackRecoil);
 	const [windowFocus, setWindowFocus] = useRecoilState(windowFocusRecoil);
+	const [windowStack, setWindowStack] = useRecoilState(windowStackRecoil);
 
 	const isFocused = iconFocus === id;
 	const isHalfFocused = isFocused && windowFocus !== parentNode;
@@ -118,7 +118,7 @@ const FolderIcon: React.FC<FolderProps> = ({
 						: "transparent",
 				}}
 			>
-				{data.name}
+				{data.name || "(이름없음)"}
 			</div>
 		</div>
 	);

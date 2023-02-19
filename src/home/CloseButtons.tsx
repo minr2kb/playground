@@ -4,6 +4,7 @@ import { CgClose } from "react-icons/cg";
 import { BsDash } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
 import { themeRecoil } from "../recoil";
+import { Theme } from "../types/interfaces";
 
 interface CloseButtonsProps {
 	onClose: React.MouseEventHandler<HTMLDivElement>;
@@ -43,7 +44,7 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 					backgroundColor:
 						isFocused || isHovering
 							? "#FF5F57"
-							: theme === "DARK"
+							: theme === Theme.DARK
 							? "#666"
 							: "#ACACAC",
 				}}
@@ -66,7 +67,7 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 					backgroundColor:
 						isFocused || isHovering
 							? "#FFBC22"
-							: theme === "DARK"
+							: theme === Theme.DARK
 							? "#666"
 							: "#ACACAC",
 				}}
@@ -89,7 +90,7 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 					backgroundColor:
 						isFocused || isHovering
 							? "#29C73F"
-							: theme === "DARK"
+							: theme === Theme.DARK
 							? "#666"
 							: "#ACACAC",
 				}}
