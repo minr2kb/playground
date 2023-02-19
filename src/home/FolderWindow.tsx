@@ -132,8 +132,11 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					// 	: theme === "DARK"
 					// 	? "#2C2733"
 					// 	: "#E7E5EA",
-					backgroundColor: Theme.DARK ? "#37333C" : "#F5F1F8",
-					borderBottom: "solid 0.5px rgba(0,0,0,1)",
+					backgroundColor:
+						theme === Theme.DARK ? "#37333C" : "#F5F1F8",
+					borderBottom: `solid 0.5px rgba(0,0,0,${
+						theme === Theme.DARK ? "1" : "0.2"
+					})`,
 					paddingLeft: 20,
 					transition: "background-color ease-in-out 0.5s",
 					WebkitTransition: "background-color ease-in-out 0.5s",

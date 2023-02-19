@@ -125,7 +125,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 					borderRadius: 3,
 					color: isHalfFocused
 						? "#666"
-						: Theme.DARK || isFocused
+						: theme === Theme.DARK || isFocused
 						? "white"
 						: "#333333",
 					backgroundColor: isHalfFocused
