@@ -84,8 +84,8 @@ const Home: React.FC = () => {
 			style={{
 				width: "100vw",
 				height: "100vh",
-				backgroundImage: `url('images/home/mac_desktop_bg${
-					theme === Theme.DARK ? "_dark" : ""
+				backgroundImage: `url('images/home/mike-yukhtenko-${
+					theme === Theme.DARK ? "dark" : "light"
 				}.jpg')`,
 				backgroundSize: "100%",
 				backgroundPosition: "center center",

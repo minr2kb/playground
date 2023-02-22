@@ -46,10 +46,14 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				justifyContent: "space-between",
 				width: "100%",
 				height: 30,
+				// backgroundColor:
+				// 	theme === Theme.DARK
+				// 		? "rgba(62,13,165,0.7)"
+				// 		: "rgba(232,195,255,0.7)",
 				backgroundColor:
 					theme === Theme.DARK
-						? "rgba(62,13,165,0.7)"
-						: "rgba(232,195,255,0.7)",
+						? "rgba(0,0,0,0.2)"
+						: "rgba(255,255,255,0.3)",
 				backdropFilter: "blur(50px)",
 				fontSize: 13,
 				fontWeight: 500,

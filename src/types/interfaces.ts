@@ -16,6 +16,17 @@ export enum Direction {
 	LEFT = "left",
 }
 
+export enum Edge {
+	TOP = "top",
+	BOTTOM = "bottom",
+	RIGHT = "right",
+	LEFT = "left",
+	TOP_RIGHT = "top_right",
+	TOP_LEFT = "top_left",
+	BOTTOM_RIGHT = "bottom_right",
+	BOTTOM_LEFT = "bottom_left",
+}
+
 export interface HeapData {
 	priority: number;
 	data: any;

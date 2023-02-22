@@ -1,12 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import NotFound from "./NotFound";
-import HoverLogo from "./pages/interactive/HoverLogo";
-import RainbowRotate from "./pages/graphics/RainbowRotate";
-import Legorize from "./pages/graphics/Legorize";
-import CoffeeCup from "./pages/3d/CoffeeCup";
-import TMRlogo from "./pages/3d/TMRlogo";
-import LightBulbs from "./pages/interactive/LightBulbs";
 import Home from "./home/Home";
 
 function App() {
@@ -15,18 +9,7 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Home />} />
-					<Route path="/image">
-						<Route path="legorize" element={<Legorize />} />
-					</Route>
-					<Route path="/interactive">
-						<Route path="hover-logo" element={<HoverLogo />} />
-						<Route path="rainbow" element={<RainbowRotate />} />
-						<Route path="lightbulbs" element={<LightBulbs />} />
-					</Route>
-					<Route path="/3d">
-						<Route path="tmr-logo" element={<TMRlogo />} />
-						<Route path="coffee" element={<CoffeeCup />} />
-					</Route>
+
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</BrowserRouter>

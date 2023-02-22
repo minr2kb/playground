@@ -9,11 +9,12 @@ import {
 import { BsChevronLeft, BsChevronRight, BsSearch } from "react-icons/bs";
 import { CgMoreO, CgChevronDown } from "react-icons/cg";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi";
-import useDraggable from "../utils/hooks/useDraggable";
 import AppIcon from "./AppIcon";
 import FolderIcon from "./FolderIcon";
 import CloseButtons from "./CloseButtons";
 import { DirType, Folder, Theme, UUID } from "../types/interfaces";
+import useDragResizable from "../utils/hooks/useDragResizable";
+import ResizeHandles from "./ResizeHandles";
 
 interface FolderWindowProps {
 	id: UUID;
@@ -22,9 +23,21 @@ interface FolderWindowProps {
 const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as Folder;
-	const [draggerableProps, offset, isDragging] = useDraggable();
-
-	const windowSize = { width: 900, height: 500 };
+	// const [draggerableProps, offset, isDragging] = useDraggable();
+	const [
+		position,
+		size,
+		draggableProps,
+		isDragging,
+		draggingEdge,
+		handleMouseDown,
+	] = useDragResizable(
+		{
+			width: 900,
+			height: 500,
+		},
+		{ x: 300, y: 150 }
+	);
 
 	const theme = useRecoilValue(themeRecoil);
 
@@ -78,30 +91,26 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 	return (
 		<div
 			style={{
-				transition: `top ease-in-out 0.2s, left ease-in-out 0.2s, background-color ease-in-out 0.5s, width ease-in-out 0.2s, height ease-in-out 0.2s${
-					isDragging ? "" : ", margin ease-in-out 0.2s"
+				transition: `background-color ease-in-out 0.5s${
+					isDragging
+						? ""
+						: ", width ease-in-out 0.2s, height ease-in-out 0.2s, top ease-in-out 0.2s, left ease-in-out 0.2s"
 				}`,
-				WebkitTransition: `top ease-in-out 0.2s, left ease-in-out 0.2s, background-color ease-in-out 0.5s, width ease-in-out 0.2s, height ease-in-out 0.2s${
-					isDragging ? "" : ", margin ease-in-out 0.2s"
+				WebkitTransition: `background-color ease-in-out 0.5s${
+					isDragging
+						? ""
+						: ", width ease-in-out 0.2s, height ease-in-out 0.2s, top ease-in-out 0.2s, left ease-in-out 0.2s"
 				}`,
 				position: "absolute",
-				top: isStaged
-					? "100%"
-					: isFullSize
-					? 0
-					: `calc(50% - ${windowSize.height / 2}px)`,
-				left: isStaged
-					? "10%"
-					: isFullSize
-					? 0
-					: `calc(50% - ${windowSize.width / 2}px)`,
-				width: isStaged ? 100 : isFullSize ? "100%" : windowSize.width,
+				top: isStaged ? "100%" : isFullSize ? 0 : `${position.y}px`,
+				left: isStaged ? "10%" : isFullSize ? 0 : `${position.x}px`,
+				width: isStaged ? 100 : isFullSize ? "100%" : `${size.width}px`,
 				height: isStaged
 					? 100
 					: isFullSize
 					? "100vh"
-					: windowSize.height,
-				overflow: "hidden",
+					: `${size.height}px`,
+				// overflow: "hidden",
 				backgroundColor: theme === Theme.DARK ? "#221D27" : "#FFFFFF",
 				borderRadius: isFullSize ? 0 : "12px",
 				border: isFullSize
@@ -112,13 +121,14 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 								: "rgba(0,0,0,0.3)"
 					  }`,
 				boxShadow: `5px 10px 30px 10px rgba(0,0,0,${
-					isFocused ? 0.5 : 0.3
+					isFocused ? 0.3 : 0.2
 				})`,
-				marginLeft: isStaged || isFullSize ? 0 : offset.x,
-				marginTop: isStaged || isFullSize ? 0 : offset.y,
+				// marginLeft: isStaged || isFullSize ? 0 : offset.x,
+				// marginTop: isStaged || isFullSize ? 0 : offset.y,
 				zIndex: 100 + windowStack.indexOf(id),
 			}}
 		>
+			{/* Header */}
 			<div
 				style={{
 					display: "flex",
@@ -145,13 +155,10 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 						!isFocused && theme === Theme.LIGHT
 							? "brightness(0.9)"
 							: "brightness(1)",
+					borderRadius: "12px 12px 0px 0px",
 				}}
-				{...draggerableProps}
 				onClick={onFocus}
-				onDragStart={e => {
-					draggerableProps.onDragStart(e);
-					onFocus(e);
-				}}
+				{...draggableProps}
 			>
 				<div
 					style={{
@@ -236,6 +243,8 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					/>
 				</div>
 			</div>
+
+			{/* Contents */}
 			<div
 				style={{
 					position: "relative",
@@ -272,6 +281,14 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					)
 				)}
 			</div>
+			{!isFullSize && (
+				<ResizeHandles
+					size={size}
+					position={position}
+					onMouseDown={handleMouseDown}
+					draggingEdge={draggingEdge}
+				/>
+			)}
 		</div>
 	);
 };

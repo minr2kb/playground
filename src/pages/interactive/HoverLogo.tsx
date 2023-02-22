@@ -29,7 +29,7 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 				marginLeft: "-25vw",
 			}}
 		>
-			<div
+			{/* <div
 				style={{
 					width: direction === "up" ? "150vw" : 0,
 					height: direction === "up" ? "150vw" : 0,
@@ -38,7 +38,7 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 					transition: "all ease-in-out 0.5s",
 					WebkitTransition: "all ease-in-out 0.5s",
 				}}
-			></div>
+			></div> */}
 			<div>
 				{[...Array(MAX)].map((v, i: number) => (
 					<div
@@ -63,9 +63,9 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 							opacity: i > count - 1 ? 0 : 1 - 0.01 * (MAX - i),
 						}}
 					>
-						TMR
+						HELLO
 						<br />
-						FOUNDERS
+						WORLD!
 					</div>
 				))}
 			</div>

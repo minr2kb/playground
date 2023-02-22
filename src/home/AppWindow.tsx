@@ -4,6 +4,8 @@ import { dirMapRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
 import useDraggable from "../utils/hooks/useDraggable";
 import CloseButtons from "./CloseButtons";
 import { App, UUID } from "../types/interfaces";
+import useDragResizable from "../utils/hooks/useDragResizable";
+import ResizeHandles from "./ResizeHandles";
 
 interface AppWindowProps {
 	id: UUID;
@@ -14,9 +16,20 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 	const data = dirMap[id] as App;
 	console.log(data);
 	const Content = data.component;
-	const [draggerableProps, offset, isDragging] = useDraggable();
-
-	const windowSize = { width: 800, height: 600 };
+	const [
+		position,
+		size,
+		draggableProps,
+		isDragging,
+		draggingEdge,
+		handleMouseDown,
+	] = useDragResizable(
+		{
+			width: 800,
+			height: 600,
+		},
+		{ x: 300, y: 150 }
+	);
 
 	const [windowStack, setWindowStack] = useRecoilState(windowStackRecoil);
 	const [windowFocus, setWindowFocus] = useRecoilState(windowFocusRecoil);
@@ -60,38 +73,34 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 	return (
 		<div
 			style={{
-				transition: `top ease-in-out 0.2s, left ease-in-out 0.2s, width ease-in-out 0.2s, height ease-in-out 0.2s${
-					isDragging ? "" : ", margin ease-in-out 0.2s"
+				transition: `background-color ease-in-out 0.5s${
+					isDragging
+						? ""
+						: ", width ease-in-out 0.2s, height ease-in-out 0.2s, top ease-in-out 0.2s, left ease-in-out 0.2s"
 				}`,
-				WebkitTransition: `top ease-in-out 0.2s, left ease-in-out 0.2s, width ease-in-out 0.2s, height ease-in-out 0.2s${
-					isDragging ? "" : ", margin ease-in-out 0.2s"
+				WebkitTransition: `background-color ease-in-out 0.5s${
+					isDragging
+						? ""
+						: ", width ease-in-out 0.2s, height ease-in-out 0.2s, top ease-in-out 0.2s, left ease-in-out 0.2s"
 				}`,
 				position: "absolute",
-				top: isStaged
-					? "100%"
-					: isFullSize
-					? 0
-					: `calc(50% - ${windowSize.height / 2}px)`,
-				left: isStaged
-					? "10%"
-					: isFullSize
-					? 0
-					: `calc(50% - ${windowSize.width / 2}px)`,
-				width: isStaged ? 100 : isFullSize ? "100%" : windowSize.width,
+				top: isStaged ? "100%" : isFullSize ? 0 : `${position.y}px`,
+				left: isStaged ? "10%" : isFullSize ? 0 : `${position.x}px`,
+				width: isStaged ? 100 : isFullSize ? "100%" : `${size.width}px`,
 				height: isStaged
 					? 100
 					: isFullSize
-					? "100%"
-					: windowSize.height,
-				overflow: "hidden",
+					? "100vh"
+					: `${size.height}px`,
+				// overflow: "hidden",
 				backgroundColor: "#000",
 				borderRadius: isFullSize ? 0 : "12px",
 				// border: isFullSize
 				// 	? "none"
 				// 	: "solid 1.5px rgba(255,255,255,0.3)",
 				boxShadow: "5px 10px 30px 7px rgba(0,0,0,0.5)",
-				marginLeft: isStaged || isFullSize ? 0 : offset.x,
-				marginTop: isStaged || isFullSize ? 0 : offset.y,
+				// marginLeft: isStaged || isFullSize ? 0 : offset.x,
+				// marginTop: isStaged || isFullSize ? 0 : offset.y,
 				zIndex: 100 + windowStack.indexOf(id),
 			}}
 		>
@@ -106,12 +115,8 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 					position: "absolute",
 					zIndex: 10,
 				}}
-				{...draggerableProps}
 				onClick={onFocus}
-				onDragStart={e => {
-					draggerableProps.onDragStart(e);
-					onFocus(e);
-				}}
+				{...draggableProps}
 			>
 				<div
 					style={{
@@ -135,11 +140,20 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 					width: "100%",
 					height: "100%",
 					overflow: "auto",
+					borderRadius: "12px",
 				}}
 				onClick={onFocus}
 			>
 				{<Content />}
 			</div>
+			{!isFullSize && (
+				<ResizeHandles
+					size={size}
+					position={position}
+					onMouseDown={handleMouseDown}
+					draggingEdge={draggingEdge}
+				/>
+			)}
 		</div>
 	);
 };

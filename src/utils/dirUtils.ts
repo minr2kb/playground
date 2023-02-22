@@ -35,7 +35,7 @@ const createDirMap = async (
 					id: uuid,
 					component: mod.default,
 					name: mod.config?.name || name,
-					icon: mod.config?.icon,
+					icon: mod.config?.icon || "images/default_app_icon.png",
 				};
 				dirMap[uuid] = app;
 			});
