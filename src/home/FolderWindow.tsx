@@ -15,6 +15,7 @@ import CloseButtons from "./CloseButtons";
 import { DirType, Folder, Theme, UUID } from "../types/interfaces";
 import useDragResizable from "../utils/hooks/useDragResizable";
 import ResizeHandles from "./ResizeHandles";
+import { Grid } from "@mui/material";
 
 interface FolderWindowProps {
 	id: UUID;
@@ -89,8 +90,8 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 	}, [windowStack, id]);
 
 	return (
-		<div
-			style={{
+		<Grid
+			sx={{
 				transition: `background-color ease-in-out 0.5s${
 					isDragging
 						? ""
@@ -111,7 +112,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					? "100vh"
 					: `${size.height}px`,
 				// overflow: "hidden",
-				backgroundColor: theme === Theme.DARK ? "#221D27" : "#FFFFFF",
+				bgcolor: theme === Theme.DARK ? "#221D27" : "#FFFFFF",
 				borderRadius: isFullSize ? 0 : "12px",
 				border: isFullSize
 					? "none"
@@ -129,25 +130,18 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 			}}
 		>
 			{/* Header */}
-			<div
-				style={{
-					display: "flex",
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
 					justifyContent: "space-between",
 					height: 50,
-					// backgroundColor: isFocused
-					// 	? theme === "DARK"
-					// 		? "#37333C"
-					// 		: "#F5F1F8"
-					// 	: theme === "DARK"
-					// 	? "#2C2733"
-					// 	: "#E7E5EA",
-					backgroundColor:
-						theme === Theme.DARK ? "#37333C" : "#F5F1F8",
+
+					bgcolor: theme === Theme.DARK ? "#37333C" : "#F5F1F8",
 					borderBottom: `solid 0.5px rgba(0,0,0,${
 						theme === Theme.DARK ? "1" : "0.2"
 					})`,
-					paddingLeft: 20,
+					pl: "20px",
 					transition: "background-color ease-in-out 0.5s",
 					WebkitTransition: "background-color ease-in-out 0.5s",
 					opacity: isFocused ? 1 : 0.6,
@@ -156,13 +150,15 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 							? "brightness(0.9)"
 							: "brightness(1)",
 					borderRadius: "12px 12px 0px 0px",
+					flexWrap: "nowrap",
 				}}
 				onClick={onFocus}
 				{...draggableProps}
 			>
-				<div
-					style={{
-						display: "flex",
+				<Grid
+					container
+					sx={{
+						width: "fit-content",
 						alignItems: "center",
 						height: 50,
 					}}
@@ -173,7 +169,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 						setIsFullSize={setIsFullSize}
 						isFocused={isFocused}
 					/>
-					<div style={{ fontWeight: 800 }}>
+					<Grid sx={{ fontWeight: 800 }}>
 						<BsChevronLeft
 							size={19}
 							color={iconColor}
@@ -192,24 +188,25 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 								opacity: isFocused ? 0.6 : 0.4,
 							}}
 						/>
-					</div>
-					<div
-						style={{
+					</Grid>
+					<Grid
+						sx={{
 							fontWeight: 800,
-							marginLeft: 15,
+							ml: "15px",
 							color: iconColor,
 							opacity: isFocused ? 1 : 0.5,
 						}}
 					>
 						{data.name}
-					</div>
-				</div>
-				<div
-					style={{
-						display: "flex",
+					</Grid>
+				</Grid>
+				<Grid
+					container
+					sx={{
+						width: "fit-content",
 						alignItems: "center",
 						height: 50,
-						marginRight: 20,
+						mr: "20px",
 					}}
 				>
 					<CgMoreO
@@ -241,14 +238,14 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 							opacity: isFocused ? 0.8 : 0.5,
 						}}
 					/>
-				</div>
-			</div>
+				</Grid>
+			</Grid>
 
 			{/* Contents */}
-			<div
-				style={{
+			<Grid
+				container
+				sx={{
 					position: "relative",
-					display: "flex",
 					flexWrap: "wrap",
 					width: "100%",
 					height: "100%",
@@ -280,7 +277,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 						/>
 					)
 				)}
-			</div>
+			</Grid>
 			{!isFullSize && (
 				<ResizeHandles
 					size={size}
@@ -289,7 +286,7 @@ const FolderWindow: React.FC<FolderWindowProps> = ({ id }) => {
 					draggingEdge={draggingEdge}
 				/>
 			)}
-		</div>
+		</Grid>
 	);
 };
 

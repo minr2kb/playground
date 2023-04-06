@@ -3,6 +3,7 @@ import useDraggable from "../utils/hooks/useDraggable";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dirMapRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
 import { Folder, UUID } from "../types/interfaces";
+import { Grid } from "@mui/material";
 
 interface FolderProps {
 	id: UUID;
@@ -47,9 +48,9 @@ const FolderIcon: React.FC<FolderProps> = ({
 	};
 
 	return (
-		<div
-			style={{
-				display: "flex",
+		<Grid
+			container
+			sx={{
 				flexDirection: "column",
 				alignItems: "center",
 				flexShrink: 0,
@@ -58,8 +59,8 @@ const FolderIcon: React.FC<FolderProps> = ({
 				position: "absolute",
 				top: parentNode === null ? 50 + index * 110 : 20,
 				left: parentNode === null ? 20 : 20 + index * 110,
-				marginLeft: offset.x,
-				marginTop: offset.y,
+				ml: `${offset.x}px`,
+				mt: `${offset.y}px`,
 				zIndex: iconStack.indexOf(id),
 			}}
 			onClick={e => {
@@ -74,15 +75,15 @@ const FolderIcon: React.FC<FolderProps> = ({
 				onFocus();
 			}}
 		>
-			<div
-				style={{
-					padding: 2,
+			<Grid
+				sx={{
+					p: "2px",
 
 					...(isFocused
 						? {
-								backgroundColor: "rgba(0,0,0,0.4)",
+								bgcolor: "rgba(0,0,0,0.4)",
 								border: "solid 1.5px rgba(200,200,200,0.4)",
-								borderRadius: 4,
+								borderRadius: "4px",
 						  }
 						: {
 								border: "solid 1.5px rgba(200,200,200,0)",
@@ -97,21 +98,19 @@ const FolderIcon: React.FC<FolderProps> = ({
 					style={{ borderRadius: "7px" }}
 					draggable={false}
 				/>
-			</div>
-			<div
-				style={{
-					marginTop: 3,
+			</Grid>
+			<Grid
+				sx={{
+					mt: "3px",
 					textAlign: "center",
 					fontSize: 13,
 					fontWeight: 500,
 					textShadow: "0px 0px 2px rgba(0,0,0,0.1)",
-
-					paddingBottom: 1,
-					paddingLeft: 5,
-					paddingRight: 5,
-					borderRadius: 3,
+					pb: "1px",
+					px: "5px",
+					borderRadius: "3px",
 					color: isHalfFocused ? "#666" : "white",
-					backgroundColor: isHalfFocused
+					bgcolor: isHalfFocused
 						? "#DDD"
 						: isFocused
 						? "#0158D0"
@@ -119,8 +118,8 @@ const FolderIcon: React.FC<FolderProps> = ({
 				}}
 			>
 				{data.name || "(이름없음)"}
-			</div>
-		</div>
+			</Grid>
+		</Grid>
 	);
 };
 

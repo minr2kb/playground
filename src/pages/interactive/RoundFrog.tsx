@@ -118,9 +118,11 @@ const RoundFrog: React.FC<RoundFrogProps> = () => {
 	return (
 		<div
 			style={{
+				position: "relative",
 				width: "100%",
 				height: "100%",
 				backgroundColor: "white",
+				overflow: "hidden",
 			}}
 			onClick={e => {
 				const newPosition = {

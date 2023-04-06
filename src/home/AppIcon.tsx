@@ -8,6 +8,7 @@ import {
 	windowStackRecoil,
 } from "../recoil";
 import { App, Theme, UUID } from "../types/interfaces";
+import { Grid } from "@mui/material";
 
 interface AppIconProps {
 	id: UUID;
@@ -55,19 +56,18 @@ const AppIcon: React.FC<AppIconProps> = ({
 	};
 
 	return (
-		<div
-			style={{
-				display: "flex",
+		<Grid
+			container
+			sx={{
 				flexDirection: "column",
 				alignItems: "center",
 				flexShrink: 0,
 				width: 100,
-				height: 100,
 				position: "absolute",
 				top: 20,
 				left: 20 + index * 110,
-				marginLeft: offset.x,
-				marginTop: offset.y,
+				ml: `${offset.x}px`,
+				mt: `${offset.y}px`,
 				zIndex: iconStack.indexOf(id),
 			}}
 			onClick={e => {
@@ -81,9 +81,9 @@ const AppIcon: React.FC<AppIconProps> = ({
 				onFocus();
 			}}
 		>
-			<div
-				style={{
-					padding: 10,
+			<Grid
+				sx={{
+					p: "10px",
 
 					...(isFocused
 						? {
@@ -91,7 +91,7 @@ const AppIcon: React.FC<AppIconProps> = ({
 									theme === Theme.DARK ? 0.2 : 0.4
 								})`,
 								// border: "solid 1.5px rgba(200,200,200,0.4)",
-								borderRadius: 5,
+								borderRadius: "5px",
 						  }
 						: {
 								// border: "solid 1.5px rgba(200,200,200,0)",
@@ -109,20 +109,18 @@ const AppIcon: React.FC<AppIconProps> = ({
 						objectFit: "cover",
 					}}
 				/>
-			</div>
+			</Grid>
 
-			<div
-				style={{
-					marginTop: 3,
+			<Grid
+				sx={{
+					mt: "3px",
 					textAlign: "center",
 					fontSize: 13,
 					fontWeight: 500,
 					textShadow: "0px 0px 2px rgba(0,0,0,0.1)",
-
-					paddingBottom: 1,
-					paddingLeft: 5,
-					paddingRight: 5,
-					borderRadius: 3,
+					pb: "1px",
+					px: "5px",
+					borderRadius: "3px",
 					color: isHalfFocused
 						? "#666"
 						: theme === Theme.DARK || isFocused
@@ -136,8 +134,8 @@ const AppIcon: React.FC<AppIconProps> = ({
 				}}
 			>
 				{data.name}
-			</div>
-		</div>
+			</Grid>
+		</Grid>
 	);
 };
 

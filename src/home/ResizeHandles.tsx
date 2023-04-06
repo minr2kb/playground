@@ -18,7 +18,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 }) => (
 	<>
 		<div
-			className="handle-top"
+			id="handle-top"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.TOP);
 			}}
@@ -34,7 +34,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-right"
+			id="handle-right"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.RIGHT);
 			}}
@@ -50,7 +50,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-bottom"
+			id="handle-bottom"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.BOTTOM);
 			}}
@@ -66,7 +66,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-left"
+			id="handle-left"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.LEFT);
 			}}
@@ -82,7 +82,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-top handle-left"
+			id="handle-top handle-left"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.TOP_LEFT);
 			}}
@@ -99,7 +99,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 		/>
 
 		<div
-			className="handle-top handle-right"
+			id="handle-top handle-right"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.TOP_RIGHT);
 			}}
@@ -115,7 +115,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-bottom handle-right"
+			id="handle-bottom handle-right"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.BOTTOM_RIGHT);
 			}}
@@ -131,7 +131,7 @@ const ResizeHandles: React.FC<ResizeHandlesProps> = ({
 			}}
 		/>
 		<div
-			className="handle-bottom handle-left"
+			id="handle-bottom handle-left"
 			onMouseDown={e => {
 				onMouseDown(e, Edge.BOTTOM_LEFT);
 			}}

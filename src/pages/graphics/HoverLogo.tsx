@@ -20,6 +20,8 @@ const HoverLogo: React.FC<HoverLogoProps> = ({ onClick }) => {
 	return (
 		<div
 			style={{
+				position: "relative",
+				overflow: "hidden",
 				display: "flex",
 				height: "100vh",
 				alignItems: "center",

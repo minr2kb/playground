@@ -5,6 +5,7 @@ import { BsDash } from "react-icons/bs";
 import { useRecoilValue } from "recoil";
 import { themeRecoil } from "../recoil";
 import { Theme } from "../types/interfaces";
+import { Grid } from "@mui/material";
 
 interface CloseButtonsProps {
 	onClose: React.MouseEventHandler<HTMLDivElement>;
@@ -24,24 +25,24 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 	const theme = useRecoilValue(themeRecoil);
 
 	return (
-		<div
-			style={{
-				display: "flex",
+		<Grid
+			container
+			sx={{
 				alignItems: "center",
 				justifyContent: "space-between",
 				width: 60,
 				height: "100%",
 			}}
 		>
-			<div
-				style={{
-					display: "flex",
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
 					justifyContent: "center",
 					width: RADIUS,
 					height: RADIUS,
 					borderRadius: "50%",
-					backgroundColor:
+					bgcolor:
 						isFocused || isHovering
 							? "#FF5F57"
 							: theme === Theme.DARK
@@ -55,16 +56,16 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 				onClick={isFocused ? onClose : undefined}
 			>
 				{isHovering && <CgClose size={12} color="rgba(0,0,0,0.6)" />}
-			</div>
-			<div
-				style={{
-					display: "flex",
+			</Grid>
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
 					justifyContent: "center",
 					width: RADIUS,
 					height: RADIUS,
 					borderRadius: "50%",
-					backgroundColor:
+					bgcolor:
 						isFocused || isHovering
 							? "#FFBC22"
 							: theme === Theme.DARK
@@ -78,9 +79,9 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 				onClick={isFocused ? onStage : undefined}
 			>
 				{isHovering && <BsDash size={20} color="rgba(0,0,0,0.6)" />}
-			</div>
-			<div
-				style={{
+			</Grid>
+			<Grid
+				sx={{
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
@@ -103,9 +104,10 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 				}
 			>
 				{isHovering && (
-					<div
-						style={{
-							display: "flex",
+					<Grid
+						container
+						sx={{
+							flexWrap: "nowrap",
 							transform: "rotate(45deg)",
 						}}
 					>
@@ -113,12 +115,12 @@ const CloseButtons: React.FC<CloseButtonsProps> = ({
 						<GoTriangleRight
 							size={10}
 							color="rgba(0,0,0,0.5)"
-							style={{ marginLeft: -4 }}
+							style={{ marginLeft: "-2px" }}
 						/>
-					</div>
+					</Grid>
 				)}
-			</div>
-		</div>
+			</Grid>
+		</Grid>
 	);
 };
 

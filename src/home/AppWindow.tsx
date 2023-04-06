@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dirMapRecoil, windowFocusRecoil, windowStackRecoil } from "../recoil";
-import useDraggable from "../utils/hooks/useDraggable";
 import CloseButtons from "./CloseButtons";
 import { App, UUID } from "../types/interfaces";
 import useDragResizable from "../utils/hooks/useDragResizable";
 import ResizeHandles from "./ResizeHandles";
+import { Grid } from "@mui/material";
 
 interface AppWindowProps {
 	id: UUID;
@@ -14,7 +14,7 @@ interface AppWindowProps {
 const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 	const dirMap = useRecoilValue(dirMapRecoil);
 	const data = dirMap[id] as App;
-	console.log(data);
+
 	const Content = data.component;
 	const [
 		position,
@@ -71,8 +71,8 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 	}, [windowStack, id]);
 
 	return (
-		<div
-			style={{
+		<Grid
+			sx={{
 				transition: `background-color ease-in-out 0.5s${
 					isDragging
 						? ""
@@ -92,50 +92,36 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 					: isFullSize
 					? "100vh"
 					: `${size.height}px`,
-				// overflow: "hidden",
-				backgroundColor: "#000",
+				bgcolor: "#000",
 				borderRadius: isFullSize ? 0 : "12px",
-				// border: isFullSize
-				// 	? "none"
-				// 	: "solid 1.5px rgba(255,255,255,0.3)",
 				boxShadow: "5px 10px 30px 7px rgba(0,0,0,0.5)",
-				// marginLeft: isStaged || isFullSize ? 0 : offset.x,
-				// marginTop: isStaged || isFullSize ? 0 : offset.y,
 				zIndex: 100 + windowStack.indexOf(id),
 			}}
 		>
-			<div
-				style={{
-					display: "flex",
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
 					justifyContent: "space-between",
-					height: 50,
+					height: "50px",
 					width: "100%",
-					paddingLeft: 20,
+					pl: "20px",
 					position: "absolute",
-					zIndex: 10,
+					zIndex: 20,
 				}}
 				onClick={onFocus}
 				{...draggableProps}
 			>
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						height: 50,
-					}}
-				>
-					<CloseButtons
-						onClose={onClose}
-						onStage={onStage}
-						setIsFullSize={setIsFullSize}
-						isFocused={isFocused}
-					/>
-				</div>
-			</div>
-			<div
-				style={{
-					display: "flex",
+				<CloseButtons
+					onClose={onClose}
+					onStage={onStage}
+					setIsFullSize={setIsFullSize}
+					isFocused={isFocused}
+				/>
+			</Grid>
+			<Grid
+				container
+				sx={{
 					flexWrap: "wrap",
 					width: "100%",
 					height: "100%",
@@ -145,7 +131,7 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 				onClick={onFocus}
 			>
 				{<Content />}
-			</div>
+			</Grid>
 			{!isFullSize && (
 				<ResizeHandles
 					size={size}
@@ -154,7 +140,7 @@ const AppWindow: React.FC<AppWindowProps> = ({ id }) => {
 					draggingEdge={draggingEdge}
 				/>
 			)}
-		</div>
+		</Grid>
 	);
 };
 

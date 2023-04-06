@@ -28,8 +28,10 @@ const RainDrop: React.FC<RainDropProps> = () => {
 	return (
 		<div
 			style={{
+				position: "relative",
 				width: "100%",
 				height: "100%",
+				overflow: "hidden",
 				backgroundColor: "rgba(200,200,200)",
 			}}
 			onClick={e => {
@@ -71,8 +73,8 @@ const RainDrop: React.FC<RainDropProps> = () => {
 };
 
 export const config: AppInfo = {
-	name: "Rainbow Rotate",
-	icon: "images/graphics/graphics-rainbow-rotate.png",
+	name: "Rain Drop",
+	icon: "images/interactive/interactive-rain-drop.jpg",
 };
 
 export default RainDrop;

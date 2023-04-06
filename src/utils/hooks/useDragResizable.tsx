@@ -7,7 +7,7 @@ const useDragResizable = (
 ): [
 	Coordinate,
 	Size,
-	{ className: string; onMouseDown: MouseEventHandler<HTMLDivElement> },
+	{ id: string; onMouseDown: MouseEventHandler<HTMLDivElement> },
 	boolean,
 	Edge | undefined,
 	(e: React.MouseEvent<HTMLDivElement, MouseEvent>, edge: Edge) => void
@@ -21,34 +21,36 @@ const useDragResizable = (
 	const MIN_WIDTH = 450;
 
 	const handleMouseDown: MouseEventHandler<HTMLDivElement> = event => {
-		const handleClassList = (event.target as HTMLDivElement).classList;
+		const ids = (event.target as HTMLDivElement).id.split(" ");
 		const startX = event.clientX;
 		const startY = event.clientY;
 		const offsetLeft = startX - position.x;
 		const offsetTop = startY - position.y;
+		console.log(ids);
 
 		const handleMouseMove = (event: MouseEvent) => {
 			console.log("move!");
 			setIsDragging(true);
-			if (handleClassList.contains("handle-drag")) {
+			if (ids.includes("handle-drag")) {
 				const newLeft = event.clientX - offsetLeft;
 				const newTop = event.clientY - offsetTop;
+				console.log(newLeft, newTop);
 				setPosition({ x: newLeft, y: Math.max(newTop, 30) });
 			}
-			if (handleClassList.contains("handle-right")) {
+			if (ids.includes("handle-right")) {
 				const newWidth = event.clientX - position.x;
 
 				if (newWidth > MIN_WIDTH) {
 					setSize(prev => ({ ...prev, width: newWidth }));
 				}
 			}
-			if (handleClassList.contains("handle-bottom")) {
+			if (ids.includes("handle-bottom")) {
 				const newHeight = event.clientY - position.y;
 				if (newHeight > MIN_HEIGHT) {
 					setSize(prev => ({ ...prev, height: newHeight }));
 				}
 			}
-			if (handleClassList.contains("handle-left")) {
+			if (ids.includes("handle-left")) {
 				const newLeft = event.clientX;
 				const newWidth = size.width + (position.x - newLeft);
 				if (newWidth > MIN_WIDTH) {
@@ -56,7 +58,7 @@ const useDragResizable = (
 					setSize(prev => ({ ...prev, width: newWidth }));
 				}
 			}
-			if (handleClassList.contains("handle-top")) {
+			if (ids.includes("handle-top")) {
 				const newTop = event.clientY;
 				const newHeight = size.height + (position.y - newTop);
 				if (newHeight > MIN_HEIGHT && newTop > 30) {
@@ -96,7 +98,7 @@ const useDragResizable = (
 	};
 
 	const draggableProps = {
-		className: "handle-drag",
+		id: "handle-drag",
 		onMouseDown: handleMouseDown,
 	};
 

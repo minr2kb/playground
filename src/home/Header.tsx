@@ -4,6 +4,7 @@ import useInterval from "../utils/hooks/useInterval";
 import { dirMapRecoil, themeRecoil, windowFocusRecoil } from "../recoil";
 
 import { DirType, Theme } from "../types/interfaces";
+import { Grid } from "@mui/material";
 
 interface HeaderProps {
 	onLogoClick?: () => void;
@@ -39,18 +40,15 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 
 	useInterval(getTime, 10000);
 	return (
-		<div
-			style={{
-				display: "flex",
+		<Grid
+			container
+			sx={{
 				alignItems: "center",
 				justifyContent: "space-between",
 				width: "100%",
 				height: 30,
-				// backgroundColor:
-				// 	theme === Theme.DARK
-				// 		? "rgba(62,13,165,0.7)"
-				// 		: "rgba(232,195,255,0.7)",
-				backgroundColor:
+				flexWrap: "nowrap",
+				bgcolor:
 					theme === Theme.DARK
 						? "rgba(0,0,0,0.2)"
 						: "rgba(255,255,255,0.3)",
@@ -66,11 +64,12 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 				WebkitTransition: "background-color ease-in-out 0.5s",
 			}}
 		>
-			<div
-				style={{
-					display: "flex",
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
-					marginLeft: 20,
+					ml: "20px",
+					width: "fit-content",
 				}}
 			>
 				<img
@@ -79,14 +78,13 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					width={13}
 					style={{
 						filter: theme === Theme.DARK ? "invert(100%)" : "none",
-
 						marginBottom: 1,
 					}}
 					onClick={onLogoClick}
 				/>
-				<div
-					style={{
-						marginLeft: 20,
+				<Grid
+					sx={{
+						ml: "20px",
 						fontWeight: 800,
 					}}
 				>
@@ -95,36 +93,36 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 						: dirMap[windowFocus].type === DirType.FOLDER
 						? "Finder"
 						: dirMap[windowFocus].name}
-				</div>
+				</Grid>
 				{menus[
 					windowFocus === null ||
 					dirMap[windowFocus].type === DirType.FOLDER
 						? "finder"
 						: "app"
 				].map((menu: string, idx: number) => (
-					<div
+					<Grid
 						key={`header-menu-${idx}`}
-						style={{
-							marginLeft: 20,
+						sx={{
+							ml: "20px",
 						}}
 					>
 						{menu}
-					</div>
+					</Grid>
 				))}
-			</div>
+			</Grid>
 
-			<div
-				style={{
-					display: "flex",
+			<Grid
+				container
+				sx={{
 					alignItems: "center",
-					marginRight: 20,
+					mr: "20px",
+					width: "fit-content",
 				}}
 			>
-				<div
-					style={{
-						marginLeft: 20,
-						backgroundColor:
-							theme === Theme.DARK ? "white" : "black",
+				<Grid
+					sx={{
+						ml: "20px",
+						bgcolor: theme === Theme.DARK ? "white" : "black",
 						fontWeight: 400,
 						textShadow: "none",
 						color: theme === Theme.DARK ? "black" : "white",
@@ -132,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 					}}
 				>
 					&nbsp;A&nbsp;
-				</div>
+				</Grid>
 				<img
 					src="images/home/bluetooth.png"
 					alt="bluetooth"
@@ -171,16 +169,16 @@ const Header: React.FC<HeaderProps> = ({ onLogoClick }) => {
 						)
 					}
 				/>
-				<div
-					style={{
-						marginLeft: 20,
+				<Grid
+					sx={{
+						ml: "20px",
 					}}
 				>
 					{time[0]}월 {time[1]}일 ({time[2]}) &nbsp; {time[3]}:
 					{time[4].toString().padStart(2, "0")}
-				</div>
-			</div>
-		</div>
+				</Grid>
+			</Grid>
+		</Grid>
 	);
 };
 

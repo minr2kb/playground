@@ -17,6 +17,7 @@ import { DirType, Theme, UUID } from "../types/interfaces";
 import { messaging } from "../firebase";
 import { getToken, onMessage } from "firebase/messaging";
 import { getComponentTree } from "../utils/dirUtils";
+import { Grid } from "@mui/material";
 
 const Home: React.FC = () => {
 	const theme = useRecoilValue(themeRecoil);
@@ -79,9 +80,9 @@ const Home: React.FC = () => {
 	}, []);
 
 	return (
-		<div
+		<Grid
 			ref={elem}
-			style={{
+			sx={{
 				width: "100vw",
 				height: "100vh",
 				backgroundImage: `url('images/home/mike-yukhtenko-${
@@ -95,13 +96,13 @@ const Home: React.FC = () => {
 			onClick={focusOut}
 		>
 			<Header onLogoClick={triggerFull} />
-			<div
-				style={{
+			<Grid
+				sx={{
 					// display: "flex",
 					// flexDirection: "column",
 					// alignItems: "flex-end",
 					// position: "relative",
-					padding: 10,
+					p: "10px",
 				}}
 			>
 				{rootDir.map((childrenNodeId: UUID, idx: number) =>
@@ -138,8 +139,8 @@ const Home: React.FC = () => {
 							<AppWindow key={windowId} id={windowId} />
 						))
 				)}
-			</div>
-		</div>
+			</Grid>
+		</Grid>
 	);
 };
 
